@@ -3,3 +3,8 @@ node_modules/
 *.tgz
 *.tar.gz
 .DS_Store
+
+.env.*
+!.env.example
+*.sqlite*
+.railway/

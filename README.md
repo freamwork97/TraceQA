@@ -1,20 +1,11 @@
-# TraceQA
+# TraceQA · managed AI testing MVP
 
-한국어 AI 웹 테스트 워크스페이스. `dist/`는 Sites에 배포하는 정적 웹 앱이며 `worker/`는 별도 서버용 Playwright 워커입니다.
+`web/`: Korean customer workspace. No worker URL, service token or AI key input.
+`gateway/`: authenticated Sites Worker proxy with embedded UI, built by `node build.mjs`.
+`service/`: Railway service for usage credits, test billing and durable run snapshots.
+`worker/`: Playwright + AI recursive exploration engine; legacy standalone server retained for local development.
 
-## 제공 기능
+Build: `npm run build`. Tests: `npm test` and `node --test worker/test.mjs`.
+Deploy Sites with `.openai/hosting.json` and `dist/server/index.js`. Deploy Railway with root Dockerfile and railway.json; attach persistent /data volume. See service/README.md for operational configuration and limitations.
 
-- URL 입력 및 실제 워커 연결
-- 샘플/실제 실행 데이터의 명시적 구분
-- 실행 로그, 화면 지도, 스크린샷, 기능 목록, 테스트 케이스, 결함 및 후보
-- 케이스 필터와 검색, 실행 기록 검색, 상세 증거
-- HTML/JSON/CSV 보고서 내보내기
-- 워커 소스 다운로드와 연결 가이드
-
-## 실제 실행
-
-워커는 자동 배포하지 않았습니다. 사이트에서 워커 소스를 받아 README대로 Node.js 서버, Chromium, HTTPS, 접근 토큰, 허용 도메인을 설정해야 합니다. AI는 워커의 API 키 설정 후 활성화됩니다. 현재 MVP의 제한은 worker/README.md에 정리되어 있습니다.
-
-## 검증
-
-JS 문법 검사, DOM 기반 UI 상호작용 검사, 워커 단위 테스트 6개, 실제 HTTP API 인증/CORS/허용 도메인 검사 통과. Sites 관리 미리보기 relay가 준비되지 않아 실제 브라우저 레이아웃 검증은 수행하지 못했습니다. 외부 대상 Playwright 탐색과 AI 통합 검증은 아직 수행하지 않았습니다.
+The browser UI explicitly separates sample and real results. Operator keys are never sent to customers. Billing is test-only; live charges are disabled. No OPENAI_API_KEY has been configured yet.

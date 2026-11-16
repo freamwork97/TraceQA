@@ -1,0 +1,1 @@
+{"name":"traceqa-site","private":true,"version":"0.2.0","type":"module","scripts":{"build":"node build.mjs","test":"node --test service/test.mjs gateway/test.mjs"},"engines":{"node":">=24"}}
