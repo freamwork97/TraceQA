@@ -1,0 +1,9 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {isPublicIP,normalizeUrl,signature,excludedAction,sameOrigin,validateTarget} from './core.mjs';
+test('private destinations and IPv6 are rejected',()=>{for(let ip of ['127.0.0.1','10.1.2.3','169.254.169.254','172.16.0.1','192.168.0.1','100.64.0.1','::1','::ffff:127.0.0.1'])assert.equal(isPublicIP(ip),false,ip);assert.equal(isPublicIP('93.184.216.34'),true)});
+test('tracking parameters removed, functional parameters preserved',()=>{assert.equal(normalizeUrl('https://example.com/p?utm_source=a&page=2&sort=price'),'https://example.com/p?page=2&sort=price')});
+test('same URL with modal or tab state is a distinct screen',()=>{let s={title:'Product',headings:['Product'],dialog:[],active:[],targets:[]};assert.notEqual(signature('https://example.com',s),signature('https://example.com',{...s,dialog:['Image enlarged']}));assert.notEqual(signature('https://example.com',s),signature('https://example.com',{...s,active:['Details']}));assert.notEqual(signature('https://example.com',s),signature('https://example.com',{...s,scroll:{y:750}}))});
+test('data changing actions excluded; ordinary links permitted',()=>{for(let name of ['삭제','결제하기','Buy now','로그아웃','문의 전송'])assert.ok(excludedAction({name}));assert.equal(excludedAction({name:'상품 상세 보기',tag:'a'}),false);assert.equal(excludedAction({name:'확인',type:'submit'}),true)});
+test('off-origin links rejected',()=>{assert.ok(sameOrigin('https://example.com/p','https://example.com'));assert.equal(sameOrigin('https://example.com.evil.test','https://example.com'),false);assert.equal(sameOrigin('javascript:void(0)','https://example.com'),false)});
+test('allowlist is mandatory before target resolution',async()=>{await assert.rejects(validateTarget('https://other.test', ['example.com']),/TARGET_HOSTS/);await assert.rejects(validateTarget('file:///etc/passwd',['']),/HTTP/)});

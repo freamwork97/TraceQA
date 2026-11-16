@@ -1,0 +1,1 @@
+{"name":"traceqa-worker","version":"0.1.0","private":true,"type":"module","description":"TraceQA external Playwright exploration worker","scripts":{"start":"node --env-file-if-exists=.env server.mjs","test":"node --test test.mjs"},"engines":{"node":">=22"},"dependencies":{"playwright":"^1.56.1"}}
