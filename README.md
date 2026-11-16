@@ -8,4 +8,4 @@
 Build: `npm run build`. Tests: `npm test` and `node --test worker/test.mjs`.
 Deploy Sites with `.openai/hosting.json` and `dist/server/index.js`. Deploy Railway with root Dockerfile and railway.json; attach persistent /data volume. See service/README.md for operational configuration and limitations.
 
-The browser UI explicitly separates sample and real results. Operator keys are never sent to customers. Billing is test-only; live charges are disabled. No OPENAI_API_KEY has been configured yet.
+The browser UI explicitly separates sample and real results. Operator keys are never sent to customers. Billing is test-only; live charges are disabled. The production OPENAI_API_KEY is stored only in Railway Variables. It must never be added to this repository.
